@@ -56,7 +56,7 @@ END
     # open up a udp socket to a address
     sock = UDPSocket.new
     # send it a registration message
-    sock.send(sipmsgs[:register],0,'proxy.uphreak.com','5060')
+    sock.send(sipmsgs[:register],0,domain,'5060')
     # listen for response
     reg_response=sock.recvfrom(1755)
     # get the Authorization header and parse out the realm and nonce
@@ -96,7 +96,7 @@ Content-Length:  0\r
 END
 
     # send the sip message
-    sock.send(sipmsgs[:register_auth],0,'proxy.uphreak.com','5060')
+    sock.send(sipmsgs[:register_auth],0,domain,'5060')
     # listen for response
     auth_response=sock.recvfrom(1755)
     if(auth_response[0] =~ /200 OK/)
