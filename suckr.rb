@@ -10,7 +10,6 @@ pass_max=109999
 
 
 method="REGISTER"
-#domain="proxy.uphreak.com"
 domain="proxy.uphreak.com"
 uri="sip:#{domain}"
 
