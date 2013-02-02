@@ -1,13 +1,13 @@
 module Suckr
     class Response
         # this function generates the response to a auth request
-        def self.create(user,realm,pass,method,uri,nonce)
+        def self.create(user,realm,pass,uri,nonce)
           # generate a1, ha1
           a1=[user, realm, pass].join(":")
           ha1 = Digest::MD5::hexdigest(a1)
 
           # generate a2, ha2
-          a2=[method,uri].join(":")
+          a2=["REGISTER",uri].join(":")
           ha2 = Digest::MD5::hexdigest(a2)
 
           # generate response

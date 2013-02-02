@@ -1,7 +1,8 @@
 module Suckr
     class Enumerate
         
-        def self.target(host)
+        def target(host,range)
+            #TODO users enumeration on target domain
 
         end
     end
