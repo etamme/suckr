@@ -12,7 +12,6 @@ module Suckr
 
           # generate response
           request_digest=[ha1,nonce,ha2].join(":")
-          puts "request_digest = #{request_digest}"
           Digest::MD5::hexdigest(request_digest)
         end
     end
