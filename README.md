@@ -20,19 +20,3 @@ Right now, you have to edit the vars in the top of suckr.rb that control the use
 ROADMAP
 -------
 Right now im writing suckr as a ... hack... a play thing.  I'd like to work towards writing a sip parsing framework for my future tool development, and I'm guessing that suckr will help facilitate the early development of that framework.
-
-
-TODO
--------
-
-  BUGS
-  - ???
-  
-  ENHANCEMENTS  
-  - Make the whole thing faster by enumerating users first by scanning a range, and saving stuff that isnt 404'd
-    then crack the enumerated list of users
-
-  - Make a send port and listen port variable so that we can listen for responses on a different port.  basically
-    this will allow suckr to run even if a sip proxy or other service is already listening on port 5060
-
-  - Add command line options so that you dont have to edit the vars to run
