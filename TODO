@@ -1,0 +1,9 @@
+TODO:
+    -add persistence layer with MongoDB, to store results and resume sessions
+    -session handling
+    -enumerate users only function
+    -target system enumeration
+    -handle different type of sip responses to failed auth attempts (ex: 500 Server error)
+    -add commandline option parsing
+    -add config file parsing from user's home dir (create config file template with default settings)
+    -given a range of users to attack split it and start 2 separate threads to speed up things
