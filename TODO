@@ -7,3 +7,4 @@ TODO:
     -add commandline option parsing
     -add config file parsing from user's home dir (create config file template with default settings)
     -given a range of users to attack split it and start 2 separate threads to speed up things
+    -alphanumeric password handling (random password generation or reading from a dictionary)

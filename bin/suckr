@@ -4,4 +4,4 @@ require 'socket'
 require 'digest/md5'
 require 'suckr'
 
-Suckr::Target.new('192.168.1.8', 5060, UDPSocket.new).attack(300..300,100..101)
+Suckr::Target.new('192.168.1.8', 5060, UDPSocket.new).attack(300..300,100..100)
