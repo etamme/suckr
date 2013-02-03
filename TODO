@@ -1,4 +1,5 @@
 TODO:
+    -write specs so no live target platform will be required for basic funcationality testing
     -add persistence layer with MongoDB, to store results and resume sessions
     -session handling
     -enumerate users only function
